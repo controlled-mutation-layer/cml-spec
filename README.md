@@ -21,6 +21,16 @@ New to CML?
 
 ---
 
+## Reference SDKs
+
+CML is specification-first. SDKs implement the Turn envelope and boundary instrumentation.
+
+- Python: https://github.com/controlled-mutation-layer/sdk-python
+
+Additional language SDKs may be added over time.
+
+---
+
 ## What is the Controlled Mutation Layer?
 
 The Controlled Mutation Layer is the architectural boundary where:
