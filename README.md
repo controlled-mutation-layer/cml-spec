@@ -13,6 +13,14 @@ The **Controlled Mutation Layer (CML)** makes that boundary explicit.
 
 ---
 
+## Getting Started
+
+New to CML?
+
+➡️ [Getting Started (30 Minutes)](guides/getting-started.md)
+
+---
+
 ## What is the Controlled Mutation Layer?
 
 The Controlled Mutation Layer is the architectural boundary where:
