@@ -35,12 +35,13 @@ Every mutation passing through CML is captured as a structured object called a *
 
 A Turn includes:
 
-- Pre-state
-- Signals
-- Policy version
-- Confidence / volatility (optional)
-- Authorized mutation
-- Post-state
+- `turn_id` — unique identifier
+- `timestamp` — UTC ISO8601 string
+- `pre_state` — state before mutation
+- `signals` — bounded metadata describing context
+- `policy_version` — governing policy version
+- `decision` — structured decision label
+- `post_state` — state after mutation
 
 If you can’t answer “Why did this change?” — you don’t have a Turn.
 
