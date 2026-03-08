@@ -68,7 +68,7 @@ If you can’t answer “Why did this change?” — you don’t have a Turn.
 ## Repositories
 
 - **Spec / Philosophy**  
-  https://github.com/controlled-mutation-layer/esm-spec
+  [https://github.com/controlled-mutation-layer/esm-spec](https://github.com/emergent-state-machine/esm-spec)
 
 - **Python SDK (Reference Implementation)**  
   https://github.com/controlled-mutation-layer/sdk-python
