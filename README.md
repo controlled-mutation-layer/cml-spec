@@ -1,5 +1,8 @@
 # Controlled Mutation Layer (CML)
 
+**Version:** 0.1.0  
+**Status:** Draft specification
+
 **A decision boundary architecture for safe, replayable state mutation.**
 
 The Controlled Mutation Layer (CML) is an architectural boundary for **authoritative state mutation**.
