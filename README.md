@@ -1,9 +1,9 @@
 # Controlled Mutation Layer (CML)
 
+**A decision boundary architecture for safe, replayable state mutation.**
+
 **Version:** 0.1.0  
 **Status:** Draft specification
-
-**A decision boundary architecture for safe, replayable state mutation.**
 
 The Controlled Mutation Layer (CML) is an architectural boundary for **authoritative state mutation**.
 
@@ -12,6 +12,26 @@ Instead of allowing application code to mutate state implicitly, CML requires ev
 Each mutation becomes a **Turn** — a replayable record containing the signals, policy, and decision that produced the change.
 
 CML is the mutation boundary used by the **Emergent State Machine (ESM)** architecture.
+
+## Positioning
+
+CML is to **authoritative state mutation** what OpenTelemetry is to **observability**.
+
+OpenTelemetry standardizes how systems emit traces, metrics, and logs.
+
+CML standardizes how systems emit **Turn records** when authoritative state changes.
+
+Where observability answers:
+
+- What happened?
+- Where did it happen?
+- How long did it take?
+
+CML answers:
+
+- Why did authoritative state change?
+- What policy governed the change?
+- What decision produced the mutation?
 
 ## Getting Started
 

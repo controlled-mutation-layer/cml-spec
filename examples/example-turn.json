@@ -1,0 +1,13 @@
+{
+  "turn_id": "7d9e3c9f",
+  "timestamp": "2026-03-13T18:02:11Z",
+  "pre_state": "ticket_open",
+  "signals": {
+    "priority": "high",
+    "sla_hours_elapsed": 23,
+    "customer_tier": "enterprise"
+  },
+  "policy_version": "support_policy_v2",
+  "decision": "escalate_ticket",
+  "post_state": "ticket_escalated"
+}
