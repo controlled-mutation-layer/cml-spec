@@ -37,8 +37,7 @@ CML answers:
 
 New to CML?
 
-➡️ Getting Started (30 Minutes)
-(link once the guide is ready)
+➡️ [Getting Started (30 Minutes)](guides/getting-started.md)
 
 This walkthrough demonstrates how to instrument a mutation boundary and emit structured Turn objects.
 
