@@ -1,0 +1,13 @@
+{
+  "turn_id": "c9a73a21",
+  "timestamp": "2026-03-16T18:42:05Z",
+  "pre_state": "patient_stable",
+  "signals": {
+    "heart_rate": 128,
+    "oxygen_saturation": 88,
+    "respiratory_rate": 30
+  },
+  "policy_version": "triage_protocol_v1",
+  "decision": "escalate_to_critical_triage",
+  "post_state": "patient_critical"
+}
