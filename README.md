@@ -1,15 +1,15 @@
 # Controlled Mutation Layer (CML)
 
-**A decision boundary architecture for governed, replayable state mutation.**
+**A decision boundary architecture for safe, replayable state mutation.**
 
-**Version:** 1.1.0  
+**Version:** 1.0.0  
 **Status:** Draft specification
 
 The Controlled Mutation Layer (CML) is an architectural boundary for **authoritative state mutation**.
 
 Instead of allowing application code to mutate state implicitly, CML requires every mutation to pass through a structured decision boundary.
 
-Each mutation becomes a **turn** — a replayable record containing the signals, policy, and decision that produced the change.
+Each mutation becomes a **Turn** — a replayable record containing the signals, policy, and decision that produced the change.
 
 CML is the mutation boundary used by the **Emergent State Machine (ESM)** architecture.
 
@@ -54,76 +54,72 @@ Additional language SDKs may be added over time.
 
 The Controlled Mutation Layer is the architectural boundary where:
 
-Signals are evaluated
-Policy is applied
-Authorization is declared
-State mutation is executed
-The decision is recorded as a Turn
+- Signals are evaluated
+- Policy is applied
+- Authorization is declared
+- State mutation is recorded
+- The decision becomes replayable
 
 CML is not logging and it is not observability.
 
-It is the structured decision boundary preceding authoritative state change.
+It is the structured decision boundary before authoritative state changes.
 
-In an ESM system, CML is the point at which a Turn is emitted.
+In an ESM system, CML is the place where a Turn is emitted.
 
 ## Atomic Unit: The Turn
 
-Every mutation passing through CML is captured as a structured object called a turn.
+Every mutation passing through CML is captured as a structured object called a Turn.
 
-A turn records the full decision context for a state mutation.
+A Turn records the reasoning context for a state mutation.
 
 Typical fields include:
 
-turn_id — unique identifier
-timestamp — UTC ISO8601 string
-pre_state — state before mutation
-signals — bounded contextual inputs
-policy_version — governing policy version
-decision — structured decision label
-post_state — resulting state after mutation
+- turn_id — unique identifier
+- timestamp — UTC ISO8601 string
+- pre_state — state before mutation
+- signals — bounded contextual inputs
+- policy_version — governing policy version
+- decision — structured decision label
+- post_state — resulting state after mutation
 
-Turns provide a replayable and auditable decision record.
+Turns provide a replayable decision record.
 
 If a system cannot answer:
 
 “Why did this state change?”
 
-then the system does not have a turn.
+then the system does not have a Turn.
 
 ## Relationship to the Emergent State Machine
 
-CML is the mutation boundary of the Emergent State Machine (ESM) architecture.
+CML is the mutation boundary of the Emergent State Machine architecture.
 
 Within the ESM model:
 
+```text
 Signals
 ↓
 State Construction
 ↓
 Projection
 ↓
-Relevance Determination
-↓
 Policy Evaluation
 ↓
 CML Boundary
 ↓
 State Mutation (Turn emitted)
+```
 
-CML ensures that every authoritative state change is:
+The CML ensures that every authoritative state change is instrumented as a Turn.
 
-explicitly authorized
-structurally recorded
-deterministically replayable
-
-This enables auditability, governance, and controlled system evolution.
+This enables deterministic replay, auditability, and controlled system evolution.
 
 ## Repositories
 
-- ESM Specification (architecture)
-  https://github.com/emergent-state-machine/esm-spec
+- ESM Specification (architecture and theory)
+  https://github.com/controlled-mutation-layer/esm-spec
 
-- Python SDK (reference implementation of the CML specificationn; demonstrates Turn emission and mutation boundary enforcement)
+- Python SDK (reference implementation)
   https://github.com/controlled-mutation-layer/sdk-python
 
 ## Design Principle
@@ -132,4 +128,4 @@ Mutation is inevitable.
 
 Structure is optional.
 
-CML makes mutation governed, explicit, and replayable.
+CML makes mutation structured.

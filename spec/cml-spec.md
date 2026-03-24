@@ -1,11 +1,9 @@
 # Controlled Mutation Layer (CML) Specification
 
-Version: 1.0.0  
+Version: 1.1.0  
 Status: Draft
 
----
-
-# 1. Purpose
+## 1. Purpose
 
 The Controlled Mutation Layer (CML) defines a structured boundary for authoritative state mutation.
 
@@ -18,75 +16,60 @@ CML introduces a formal mutation boundary where:
 - authorization is declared
 - state mutation is recorded
 
-Every mutation passing through the CML produces a **Turn**.
+Every mutation passing through the CML produces a Turn.
 
-A Turn provides a replayable record describing **why a state change occurred**.
+No authoritative state mutation may occur outside this boundary.
 
----
+A Turn provides a replayable record describing why a state change was authorized and executed.
 
-# 2. Architectural Role
+## 2. Architectural Role
 
-CML operates as the mutation boundary of an **Emergent State Machine (ESM)** system.
+CML operates as the mutation boundary of an Emergent State Machine (ESM) system.
 
 Within an ESM architecture:
 
-Signals
-↓
-State Construction
-↓
-Projection
-↓
-Policy Evaluation
-↓
-Controlled Mutation Layer
-↓
-Authoritative State Mutation
+- Signals
+- State Construction
+- Projection
+- Relevance Determination
+- Policy Evaluation
+- Controlled Mutation Layer
+- Authoritative State Mutation (Turn emitted)
 
-The CML ensures that all authoritative state changes are emitted as **structured Turn records**.
+The CML ensures that all authoritative state changes are emitted as structured Turn records.
 
----
-
-# 3. Design Principles
+## 3. Design Principles
 
 CML follows several core principles:
 
-### Explicit Mutation
+- **Authoritative Mutation Boundary**  
+  All authoritative state mutations must pass through the CML boundary. Mutation outside this boundary is not considered governed.
+- **Structured Decision Records**  
+  Every mutation produces a Turn describing the signals, policy, and decision that authorized the change.
+- **Replayability**  
+  Turns must contain sufficient information to reconstruct the reasoning that produced the mutation.
+- **Policy Transparency**  
+  Mutations must reference the governing policy or decision framework that authorized the change.
 
-All authoritative state mutations must pass through the CML boundary.
+## 4. The Turn
 
-### Structured Decision Records
+A Turn is the atomic record emitted by the Controlled Mutation Layer.
 
-Every mutation produces a Turn describing the reasoning context of the change.
+It represents a single authorized decision resulting in an authoritative state mutation.
 
-### Replayability
+### Required Fields
 
-Turns must contain sufficient information to reconstruct the reasoning that produced the mutation.
+| Field | Description |
+| --- | --- |
+| `turn_id` | Unique identifier for the mutation event |
+| `timestamp` | UTC timestamp (ISO8601) |
+| `pre_state` | Authoritative state before mutation |
+| `signals` | Bounded contextual inputs used for evaluation |
+| `policy_version` | Identifier of the governing policy version |
+| `decision` | Structured decision label |
+| `post_state` | Resulting authoritative state |
 
-### Policy Transparency
-
-Mutations must reference the governing policy or decision framework that authorized the change.
-
----
-
-# 4. The Turn
-
-A **Turn** is the atomic record emitted by the Controlled Mutation Layer.
-
-It represents a single decision resulting in an authoritative state mutation.
-
-## Required Fields
-
-| Field            | Description                                   |
-| ---------------- | --------------------------------------------- |
-| `turn_id`        | Unique identifier for the mutation event      |
-| `timestamp`      | UTC timestamp (ISO8601)                       |
-| `pre_state`      | Authoritative state before mutation           |
-| `signals`        | Bounded contextual inputs used for evaluation |
-| `policy_version` | Identifier of the governing policy version    |
-| `decision`       | Structured decision label                     |
-| `post_state`     | Resulting authoritative state                 |
-
-## Example Turn
+### Example Turn
 
 ```json
 {
@@ -102,39 +85,34 @@ It represents a single decision resulting in an authoritative state mutation.
   "decision": "escalate_ticket",
   "post_state": "ticket_escalated"
 }
-5. Turn Requirements
+```
 
-A valid Turn must satisfy the following requirements.
+## 5. Turn Requirements
 
-Deterministic Context
+A valid Turn must satisfy the following requirements:
 
-Signals included in the Turn must be sufficient to explain the decision.
+- **Deterministic Context**  
+  Signals included in the Turn must be sufficient to reproduce the decision outcome under the referenced policy.
+- **Policy Reference**  
+  Each Turn must reference the specific policy version used to authorize the mutation.
+- **Immutable Record**  
+  Turns are append-only records and must not be modified after emission.
+- **Bounded Signals**  
+  Signals should include only the contextual inputs relevant to the decision.
 
-Immutable Record
-
-Turns are append-only records and must not be modified after emission.
-
-Bounded Signals
-
-Signals should include only the contextual inputs relevant to the decision.
-
-6. Implementation Requirements
+## 6. Implementation Requirements
 
 An implementation of the Controlled Mutation Layer must:
 
-provide a Turn envelope structure
-
-enforce emission of Turns for authoritative mutations
-
-ensure Turn immutability
-
-ensure globally unique Turn identifiers
-
-support Turn storage or transmission
+- provide a Turn envelope structure
+- enforce that no authoritative mutation occurs without emitting a Turn
+- ensure Turn immutability
+- ensure globally unique Turn identifiers
+- support Turn storage or transmission
 
 Language-specific SDKs may implement these requirements.
 
-7. Relationship to Observability
+## 7. Relationship to Observability
 
 CML differs from traditional observability systems.
 
@@ -144,43 +122,38 @@ CML captures decisions that mutate authoritative state.
 
 The Turn record represents a decision boundary, not a log event.
 
-8. Non-Goals
+CML operates at the decision boundary, not the event stream.
+
+## 8. Non-Goals
 
 CML does not specify:
 
-internal signal derivation methods
+- internal signal derivation methods
+- policy design frameworks
+- projection models
+- relevance determination logic
+- storage implementations
 
-policy design frameworks
+These concerns belong to the broader ESM architecture.
 
-projection models
-
-storage implementations
-
-Those concerns belong to the broader ESM architecture.
-
-9. Future Extensions
+## 9. Future Extensions
 
 Possible extensions to this specification include:
 
-distributed Turn coordination
+- distributed Turn coordination
+- Turn signing / cryptographic verification
+- Turn replay protocols
+- multi-system mutation boundaries
 
-Turn signing / cryptographic verification
+## 10. Summary
 
-Turn replay protocols
+The Controlled Mutation Layer introduces a governed boundary for authoritative state mutation.
 
-multi-system mutation boundaries
+By requiring every mutation to pass through a structured decision boundary and emit a Turn, systems gain:
 
-10. Summary
+- replayable decision history
+- explicit authorization and policy traceability
+- auditable and deterministic state transitions
+- controlled, versioned system evolution
 
-The Controlled Mutation Layer introduces a structured mutation boundary for software systems.
-
-By emitting Turn records, systems gain:
-
-replayable decision history
-
-explicit policy boundaries
-
-auditable state transitions
-
-deterministic mutation control
-```
+CML transforms state mutation from an implicit side effect into an explicit, governed operation.
